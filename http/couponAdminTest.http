@@ -1,0 +1,32 @@
+# Get Coupon Types
+GET http://localhost:8081/bookstore/admin/coupons/types
+
+
+###
+
+# Get Coupon Usages
+GET http://localhost:8081/bookstore/admin/coupons/usages
+Accept: application/json
+
+###
+
+# Get All Members
+GET http://localhost:8081/bookstore/admin/members
+Accept: application/json
+
+###
+
+# Create Coupon for a Specific Member
+POST http://localhost:8081/bookstore/admin/coupons/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "startDate": "2024-07-02T00:00:00Z",
+  "endDate": "2024-08-02T00:00:00Z",
+  "name": "Test Coupon",
+  "maxPrice": 10000,
+  "minPrice": 1000,
+  "couponTypeId": 1,
+  "couponUsageId": 1
+}

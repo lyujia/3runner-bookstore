@@ -1,0 +1,66 @@
+name: Java CI with Maven, SonarQube, and Docker
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      #      - name: Run SonarQube
+      #        run: mvn clean verify sonar:sonar -Dsonar.projectKey=${{secrets.SONAR_KEY}} -Dsonar.projectName=${{secrets.SONAR_NAME}} -Dsonar.host.url=${{secrets.SONAR_HOST}} -Dsonar.token=${{secrets.SONAR_TOKEN}}
+
+      - name: Delete file in server
+        run: sudo rm -rf /home/nhnacademy/bookstore
+
+      - name: Copy files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "."
+          target: "/home/nhnacademy/bookstore"
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /home/nhnacademy/bookstore
+            
+            sudo docker stop bookstore1 || true
+            sudo docker rm bookstore1 || true
+            sudo docker build -t bookstore-image1 .
+            sudo docker run -d -p 8081:8081 --name bookstore1 --net back_network bookstore-image1
+
+            while [[ "$(sudo docker inspect -f '{{.State.Status}}' bookstore1)" != "running" ]]; do \
+              echo "Waiting for container to become healthy..."; \
+              sleep 5; \
+            done
+            
+            sudo docker stop bookstore2 || true
+            sudo docker rm bookstore2 || true
+            sudo docker build -t bookstore-image2 .
+            sudo docker run -d -p 8082:8082 --name bookstore2 --net back_network bookstore-image2
+

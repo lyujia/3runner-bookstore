@@ -1,0 +1,33 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  elasticsearch:
+    uris: 115.94.72.197:9200
+    username: elastic
+    password: nhnacademy123!
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://admin:1234@eureka:8761/eureka
+  instance:
+    prefer-ip-address: true
+management:
+  endpoint:
+    pause:
+      enabled: true
+    resume:
+      enabled: true
+    restart:
+      enabled: true
+
+feign:
+  coupon:
+    url: gateway:8080
+
+log:
+  directory: logs/prod

@@ -1,0 +1,96 @@
+spring:
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        highlight_sql: true
+        auto_quote_keyword: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  profiles:
+    active: prod
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  application:
+    name: 3runner-bookstore
+
+
+
+
+server:
+  shutdown: graceful
+
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
+    org.springframework.transaction.interceptor: trace
+cloud:
+  aws:
+    credentials:
+      access-key: f0a3fad864f3468293faa98da2807b67
+      secret-key: 4f48b4901ffe47b0b64cb9d909e87364
+    region:
+      static: KR1
+    s3:
+      endpoint: https://kr1-api-object-storage.nhncloudservice.com
+      bucket: nhnacademy-be6-3runner
+
+
+springdoc:
+  swagger-ui:
+    url: /docs/openapi-3.0.json
+    path: /bookstore/docs/swagger
+
+
+elasticsearch:
+  url: 115.94.72.197:9200
+  key: Q0I4SjQ1QUIyMlNic1BPbmdUVmU6YlRpV3RwSlFTMGFESjQxWnRXWlBiUQ==
+
+rabbitmq:
+  host: de13e885d6e049dea299f18c8230e9c0
+  port: 218c9dcd765f4898a30adbcfbb063a3a
+  username: dfb26a5df5894adf85a9ca9ed6e19425
+  password: 973a4f67c38d4c3483cc77b3f05f69b9
+
+redis:
+  host: de13e885d6e049dea299f18c8230e9c0
+  port: 1301db88c68c4580a1d55ac02eeb3f5d
+  database: 142c3823c4164aa09e96667ee6e6c8e8
+  password: 5f68348fe61f4fd996101aed141021ac
+
+db:
+  driver: com.mysql.cj.jdbc.Driver
+  url: 731e048dd73f4b429f4ef4f5ba6a6dbe
+  username: 83f7720a5c66449bae3b4948e07b111f
+  password: 410f279ee5a54791b7dc0a1e87f94672
+  initial-size: 10
+  max-total: 10
+  max-idle: 10
+  min-idle: 10
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, beans, conditions, prometheus
+  endpoint:
+    health:
+      show-details: always
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true

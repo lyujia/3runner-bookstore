@@ -1,0 +1,88 @@
+{
+  "index": {
+    "number_of_shards": 4,
+    "number_of_replicas": 1
+  },
+  "analysis": {
+    "analyzer": {
+      "nori_analyzer": {
+        "type": "custom",
+        "tokenizer": "nori_tokenizer",
+        "filter": [
+          "nori_part_of_speech",
+          "custom_stop",
+          "custom_synonym",
+          "bad_word"
+        ]
+      },
+      "ngram_analyzer": {
+        "type": "custom",
+        "tokenizer": "ngram_tokenizer",
+        "filter": [
+          "custom_stop",
+          "bad_word"
+        ]
+      },
+      "whitespace_analyzer": {
+        "type": "custom",
+        "tokenizer": "whitespace_tokenizer"
+      }
+    },
+    "tokenizer": {
+      "ngram_tokenizer": {
+        "type": "ngram",
+        "min_gram": 2,
+        "max_gram": 2,
+        "token_chars": [
+          "letter",
+          "digit"
+        ]
+      },
+      "nori_tokenizer": {
+        "type": "nori_tokenizer",
+        "decompound_mode": "mixed",
+        "user_dictionary": "3runner/custom_dictionary.txt"
+      },
+      "whitespace_tokenizer": {
+        "type": "whitespace"
+      }
+    },
+    "filter": {
+      "nori_part_of_speech": {
+        "type": "nori_part_of_speech",
+        "stoptags": [
+          "E",
+          "IC",
+          "J",
+          "MAG",
+          "MAJ",
+          "MM",
+          "SP",
+          "SSC",
+          "SSO",
+          "SC",
+          "SE",
+          "XPN",
+          "XSA",
+          "XSN",
+          "XSV",
+          "UNA",
+          "NA",
+          "VSV"
+        ]
+      },
+      "custom_stop": {
+        "type": "stop",
+        "stopwords_path": "3runner/custom_stop_words.txt"
+      },
+      "custom_synonym": {
+        "type": "synonym",
+        "synonyms_path": "3runner/custom_synoym.txt"
+      },
+      "bad_word": {
+        "type": "stop",
+        "stopwords_path": "3runner/custom_bad_words.txt"
+      }
+    }
+  }
+}

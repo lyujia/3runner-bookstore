@@ -1,0 +1,56 @@
+###
+POST http://localhost:8081/bookstore/carts
+Content-Type: application/json
+Member-Id: 1
+
+{
+  "quantity": 1,
+  "bookId": 15
+}
+
+###
+PUT http://localhost:8081/bookstore/carts
+Content-Type: application/json
+Member-Id: 1
+
+{
+  "quantity": 100,
+  "bookId": 15,
+  "cartId": 20
+}
+
+###
+GET http://localhost:8081/bookstore/carts
+Member-Id: 1
+
+###
+DELETE http://localhost:8081/bookstore/carts
+Content-Type: application/json
+Member-Id: 1
+
+{
+  "bookCartId": 15,
+  "cartId": 20
+}
+
+###
+POST http://localhost:8081/bookstore/carts
+Content-Type: application/json
+
+{
+  "quantity": 1,
+  "bookId": 15
+}
+
+###
+PUT http://localhost:8081/bookstore/carts
+Content-Type: application/json
+
+{
+  "quantity": 100,
+  "bookId": 15,
+  "cartId": 36
+}
+
+###
+GET http://localhost:8081/bookstore/carts/36

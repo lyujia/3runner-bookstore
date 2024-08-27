@@ -1,0 +1,4 @@
+# Get Member Coupons
+GET http://localhost:8081/bookstore/members/coupons
+Accept: application/json
+Member-Id: 1
